@@ -3,6 +3,44 @@ function main() {
     sendForm(form);
   }
   
+  function simpleExample() {
+    // formを作成する場合
+    const form = FormApp.create('New form');
+    form.addTextItem().setTitle('text');
+    // 既存のformを使用する場合
+    // const existingForm = FormApp.openById('1234567890abcdefghijklmnopqrstuvwxyz');
+  
+    // formからItem一覧を配列で取得
+    // 型は Item[]
+    const formItems = form.getItems();
+    // 1要素目を取り出し
+    const aItem = formItems[0];
+  
+    // 具体的なItemへ変換
+    // 型はTextItem
+    const textItem = aItem.asTextItem();
+  
+    // 回答を作成。質問の型によって渡し方が違うので注意
+    // 型は ItemResponse
+    const textItemResopnse = textItem.createResponse('text resopnse');
+  
+    // FormResponseを作成
+    const formResponse = form.createResponse();
+    formResponse.withItemResponse(textItemResopnse);
+    /** 複数の時
+     * その1
+     * formResponse.withItemResponse(ItemResopnse1);
+     * formResponse.withItemResponse(ItemResopnse2);
+     * formResponse.withItemResponse(ItemResopnse3);
+     * 
+     * その2
+     * formResponse.withItemResponse(ItemResopnse1).withItemResponse(ItemResopnse2).withItemResponse(ItemResopnse3);
+     */
+  
+    // 提出
+    formResponse.submit();
+  }
+
   function createForm(){
     const form = FormApp.create('GASテストForm');
     form.setDescription('Google Apps ScriptからFormの回答を送信するテスト');
